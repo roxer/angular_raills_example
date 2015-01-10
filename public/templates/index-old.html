@@ -1,0 +1,432 @@
+<div ng-controller="TabsDemoCtrl">
+  <h1>Wybierz zakładki dynamicznie zmieniając parametry.</h1>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[0].active = true">Select second tab</button>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].active = true">Select third tab</button>
+  </p>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+  </p>
+  <hr />
+
+  <tabset>
+    <tab heading="Static title">Static content</tab>
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+      {{tab.content}}
+    </tab>
+    <tab select="alertMe()">
+      <tab-heading>
+        <i class="glyphicon glyphicon-bell"></i> Alert!
+      </tab-heading>
+      I've got an HTML heading, and a select callback. Pretty cool!
+    </tab>
+  </tabset>
+
+  <hr style="color:black;" />
+
+  <tabset vertical="true" type="pills">
+    <tab heading="Vertical 1">Vertical zawartość 1</tab>
+    <tab heading="Vertical 2">Vertical zawartość 2</tab>
+  </tabset>
+
+  <hr />
+
+  <tabset justified="true">
+    <tab heading="Justified">Justified content</tab>
+    <tab heading="SJ">Short Labeled Justified content</tab>
+    <tab heading="Long Justified">Long Labeled Justified content</tab>
+  </tabset>
+</div>
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<div ng-controller="CarsCtrl">
+  <h1>Cars {{brands.length}}</h1>
+  <select ng-options="s as s.make_name for s in brands " ng-model="brand" ng-change="changeBrand()"></select>
+  <select ng-options="s as s.model_name for s in models " ng-model="model" ng-change="changeModel()" ng-disabled="models.length == 0"></select>
+  <select ng-options="s as s.fuel_name for s in fuels " ng-model="fuel" ng-change="changeFuel()" ng-disabled="fuels.length == 0"></select>
+  <select ng-options="s as s.trans_name for s in gears " ng-model="gear" ng-change="changeGear()" ng-disabled="gears.length == 0"></select>
+
+  <br>
+  <div class="bs-example">
+    <table class="table" ng-show="gear != null">
+      <caption>Optional table caption.</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Rok produkcji</th>
+          <th>Nadwozie</th>
+          <th>Drzwi</th>
+          <th>Pojemność</th>
+          <th>Moc</th>
+        </tr>
+        <tr>
+          <th><button ng-click="setFilters(true)" class="btn-danger">Wyczyść</button> &nbsp;Filtruj po:</th>
+          <th><select ng-options="s for s in years " ng-model="year" ng-change="filterCars()"></select></th>
+          <th><select ng-options="s for s in bodies " ng-model="body" ng-change="filterCars()"></select></th>
+          <th><select ng-options="s for s in doors " ng-model="door" ng-change="filterCars()"></select></th>
+          <th><select ng-options="s for s in capacities " ng-model="capacity" ng-change="filterCars()"></select></th>
+          <th><select ng-options="s for s in powers " ng-model="power" ng-change="filterCars()"></select></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr ng-repeat="item in cars">
+          <td>{{item.model_full_name}}</td>
+          <td>{{item.begin_year}} - {{item.end_year}}</td>
+          <td>{{item.body_name}}</td>
+          <td>{{item.doors}}</td>
+          <td>{{item.engine_capacity}}</td>
+          <td>{{item.power_hp}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<div ng-controller="RatingDemoCtrl">
+    <h1>Default</h1>
+    <rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+
+    <pre style="margin:15px 0;">Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b></pre>
+
+    <button class="btn btn-sm btn-danger" ng-click="rate = 0" ng-disabled="isReadonly">Clear</button>
+    <button class="btn btn-sm btn-default" ng-click="isReadonly = ! isReadonly">Toggle Readonly</button>
+    <hr />
+
+    <h4>Custom icons</h4>
+    <div ng-init="x = 5"><rating ng-model="x" max="15" state-on="'glyphicon-ok-sign'" state-off="'glyphicon-ok-circle'"></rating> <b>(<i>Rate:</i> {{x}})</b></div>
+    <div ng-init="y = 2"><rating ng-model="y" rating-states="ratingStates"></rating> <b>(<i>Rate:</i> {{y}})</b></div>
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Time Picker</h1>
+<div ng-controller="TimepickerDemoCtrl">
+
+  <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+
+  <pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
+
+  <div class="row">
+    <div class="col-xs-6">
+        Hours step is:
+      <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
+    </div>
+    <div class="col-xs-6">
+        Minutes step is:
+      <select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+    </div>
+  </div>
+
+  <hr>
+
+  <button class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
+  <button class="btn btn-default" ng-click="update()">Set to 14:00</button>
+  <button class="btn btn-danger" ng-click="clear()">Clear</button>
+
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Auto podpowiedzi przy wpisywaniu</h1>
+<script type="text/ng-template" id="customTemplate.html">
+  <a>
+      <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
+      <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+  </a>
+</script>
+<div class='container-fluid' ng-controller="TypeaheadCtrl">
+
+    <h4>Static arrays</h4>
+    <pre>Model: {{selected | json}}</pre>
+    <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+
+    <h4>Asynchronous results</h4>
+    <pre>Model: {{asyncSelected | json}}</pre>
+    <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+    <h4>Custom templates for results</h4>
+    <pre>Model: {{customSelected | json}}</pre>
+    <input type="text" ng-model="customSelected" placeholder="Custom template" typeahead="state as state.name for state in statesWithFlags | filter:{name:$viewValue}" typeahead-template-url="customTemplate.html" class="form-control">
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Okienka modalne</h1>
+<div ng-controller="ModalDemoCtrl">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button class="btn btn-default" ng-click="open()">Open me!</button>
+    <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+    <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Akordeon</h1>
+<div ng-controller="AccordionDemoCtrl">
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
+    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+  </p>
+
+  <label class="checkbox">
+    <input type="checkbox" ng-model="oneAtATime">
+    Open only one at a time
+  </label>
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </accordion-group>
+    <accordion-group heading="Dynamic Body Content">
+      <p>The body of the accordion group grows to fit the contents</p>
+        <button class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+        <div ng-repeat="item in items">{{item}}</div>
+    </accordion-group>
+    <accordion-group is-open="status.open">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+  </accordion>
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Przyciski akcji</h1>
+<div ng-controller="DropdownCtrl">
+    <!-- Simple dropdown -->
+    <span class="dropdown" dropdown on-toggle="toggled(open)">
+      <a href class="dropdown-toggle" dropdown-toggle>
+        Click me for a dropdown, yo!
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="choice in items">
+          <a href>{{choice}}</a>
+        </li>
+      </ul>
+    </span>
+
+    <!-- Single button -->
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        Button dropdown <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <!-- Split button -->
+    <div class="btn-group" dropdown>
+      <button type="button" class="btn btn-danger">Action</button>
+      <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <hr />
+    <p>
+        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDropdown($event)">Toggle button dropdown</button>
+        <button type="button" class="btn btn-warning btn-sm" ng-click="disabled = !disabled">Enable/Disable</button>
+    </p>
+
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>AREAS Grid</h1>
+<div class="modal-body" ng-controller="AreaCtrl">
+    <ul>
+        <li ng-repeat="item in wynik">
+            {{ item.name }}
+        </li>
+    </ul>
+    Selected: <b>{{ selected.item }}</b>
+</div>
+
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>UI Grid</h1>
+<div ng-controller="AreaCtrl" >
+  <div ui-grid="{ data: wynik }" style="width:500px;height:250px;" class="myGrid"></div>
+</div>
+
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<h1>Tabele</h1>
+  <div class="bs-example">
+    <table class="table">
+      <caption>Optional table caption.</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /example -->
+
+  <div class="bs-example">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td colspan="2">Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /example -->
+  <form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Sign in</button>
+    </div>
+  </div>
+  </form>
+
+  <form class="form-inline" role="form">
+  <div class="form-group">
+    <div class="input-group">
+      <label class="sr-only" for="exampleInputEmail2">Email address</label>
+      <div class="input-group-addon">@</div>
+      <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputPassword2">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Sign in</button>
+  </form>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+

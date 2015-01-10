@@ -1,0 +1,199 @@
+$color-notice: #4F894F;
+$color-error: #DC3F45;
+
+body {
+  font-family: verdana, tahoma;
+  font-size: 12px;
+  color: black;
+}
+
+@mixin button_mixin {
+  border: 1px solid gray;
+  background-color: #F0F0F0;
+  padding: 3px 5px;
+  margin: 1px;
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  font-family: verdana, tahoma;
+  cursor: pointer;
+}
+
+@mixin window_appearance($color-background: rgba(255, 200, 200, 0.9), $color-border: blue) {
+  width: 400px;
+  position: fixed;
+  top: 170px;
+  left: 460px;
+  border: 2px solid $color-border;
+  background-color: rgba(lighten($color-background, 15%), 0.9);
+  overflow-x: auto;
+  max-height: 300px;
+  padding: 3px;
+}
+
+input[type=submit] {
+  @include button_mixin;
+}
+
+.head {
+  text-align: right;
+  color: red;
+}
+
+.form_row {
+  margin: 8px auto;
+  width: 80%;
+  label {
+    width: 100px;
+    display: inline-block;
+    text-align: right;
+    vertical-align: top;
+  }
+  input, textarea, select {
+    min-width: 40%;
+    max-width: 300px;
+  }
+  input[type=checkbox] {
+    min-width: 10px;
+    width: auto;
+  }
+
+}
+
+.button {
+  @include button_mixin;
+}
+
+.button_holder {
+  margin: 1em;
+}
+
+.right_menu {
+  text-align: right;
+}
+
+// Tabela położona na bok
+.tbl_vertical {
+  border: 2px solid rgb(250, 250, 250);
+  th {
+    padding: 3px 1px;
+    text-align: right;
+  }
+}
+
+/* style dla komunikatów wyświetlanych w programie */
+.notices {
+}
+
+.notice {
+  @include window_appearance(lighten($color-notice, 30%), $color-notice);
+  color: darken($color-notice, 20%);
+  z-index: 199;
+}
+
+.error {
+  @include window_appearance(lighten($color-error, 30%), $color-error);
+  color: darken($color-error, 20%);
+  z-index: 199;
+}
+
+.fake_link {
+  color: #2D00EB;
+  cursor: pointer;
+}
+
+/* koniec stylów dla komunikatów */
+
+/* Dla wszystkich labelów, które stoją przy polach, które to pola są wymagane */
+.field_required {
+}
+
+.field_required:after {
+  color: red;
+  vertical-align: text-top;
+  content: "*";
+}
+
+/* Wiersze tabel: parzyste i nieparzyste */
+.even {
+  background-color: rgb(250, 250, 250);
+}
+
+.odd {
+  background-color: rgb(187, 187, 187);
+}
+
+/* style dla błędów w modelach */
+.errorExplanation {
+  display: inline-block;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+.errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+.errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+.errorExplanation ul {
+  list-style-image: url("icons/icon-ball.png")
+}
+
+.errorExplanation li {
+  margin: 4px 0;
+}
+
+.errorExplanation p {
+  color: #333;
+}
+
+.field_with_errors {
+  background-color: red;
+  padding: 2px;
+}
+
+/* koniec stylów dla błędów w modelach */
+
+// style dla obrazka schematu
+
+.schema {
+  float: right;
+
+  h6 {
+    font-size: 8px;
+  }
+}
+
+// Żeby się coś dało umieścić obok H1
+.h1_title_container {
+  text-align: left;
+  h1 {
+    vertical-align: baseline;
+    display: inline-block;
+    margin: 0 0.5em;
+  }
+}
+
+.small_text {
+  font-size: 10px;
+}
+
+// Te pola, które są wkładane dynamicznie do formularza
+.inserted_fields_container {
+  border-top: 1px solid rgb(242, 242, 242);
+}

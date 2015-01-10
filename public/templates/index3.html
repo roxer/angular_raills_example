@@ -1,0 +1,66 @@
+<p>--------------------------------------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------------- </p>
+<div ng-controller="CarsCtrl">
+
+  <div class="row">
+  <div class="col-md-4">
+    <h1>Eurotax cars </h1>
+    <select ng-options="s as s.make_name for s in brands " ng-model="brand" ng-change="changeBrand()"></select>
+    <select ng-options="s as s.model_name for s in models " ng-model="model" ng-change="changeModel()" ng-disabled="models.length == 0"></select>
+    <br>
+    <br>
+    <select ng-options="s as s.fuel_name for s in fuels " ng-model="fuel" ng-change="changeFuel()" ng-disabled="fuels.length == 0"></select>
+    <select ng-options="s as s.trans_name for s in gears " ng-model="gear" ng-change="changeGear()" ng-disabled="gears.length == 0"></select>
+
+    <br>
+    <br>
+    <hr>
+    <div ng-show="gear != null && !ajaxLoader">
+      Rok produkcji:<select ng-options="s for s in years " ng-model="year" ng-change="filterCars()"></select>
+      Nadwozie:<select ng-options="s for s in bodies " ng-model="body" ng-change="filterCars()"></select>
+    <br>
+    <br>
+      Drzwi:<select ng-options="s for s in doors " ng-model="door" ng-change="filterCars()"></select>
+      Pojemność:<select ng-options="s for s in capacities " ng-model="capacity" ng-change="filterCars()"></select>
+      Moc:<select ng-options="s for s in powers " ng-model="power" ng-change="filterCars()"></select>
+    <br>
+    <br>
+      <button ng-click="setFilters(true)" class="btn-warning">Wyczyść filtry</button> &nbsp;
+    </div>
+  </div>
+  <div class="col-md-8">
+
+    <div class="bs-example">
+      <!-- img src="ajax-loader.gif" ng-show="ajaxLoader" -->
+      <table class="table" ng-show="gear != null && !ajaxLoader">
+        <caption>Optional table caption.</caption>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Rok produkcji</th>
+            <th>Nadwozie</th>
+            <th>Drzwi</th>
+            <th>Pojemność</th>
+            <th>Moc</th>
+          </tr>
+
+
+        </thead>
+        <tbody>
+
+          <tr ng-repeat="item in cars">
+            <td>{{item.model_full_name}}</td>
+            <td>{{item.begin_year}} - {{item.end_year}}</td>
+            <td>{{item.body_name}}</td>
+            <td>{{item.doors}}</td>
+            <td>{{item.engine_capacity}}</td>
+            <td>{{item.power_hp}}KM - {{item.power_hp}}kW</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+</div>
+
